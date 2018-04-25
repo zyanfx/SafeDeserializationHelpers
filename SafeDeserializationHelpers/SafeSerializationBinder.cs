@@ -47,13 +47,6 @@
                 return typeof(CustomDelegateSerializationHolder);
             }
 
-            ////// prevent DataSet-based deserialization attack
-            ////if (typeName == DataSetTypeName &&
-            ////    assemblyName.StartsWith(SystemDataAssemblyName, StringComparison.InvariantCultureIgnoreCase))
-            ////{
-            ////    return typeof(CustomDataSetDeserializer);
-            ////}
-
             // suppress known blacklisted types
             TypeNameValidator.Default.ValidateTypeName(assemblyName, typeName);
 

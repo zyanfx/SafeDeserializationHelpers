@@ -16,6 +16,7 @@
         private static readonly string[] DefaultBlacklistedTypes = new[]
         {
             "System.Management.Automation.PSObject, System.Management.Automation, Version=3.0.0.0",
+            "System.Workflow.ComponentModel.Serialization.ActivitySurrogateSelector+ObjectSurrogate+ObjectSerializedRef, System.Workflow.ComponentModel, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35",
         };
 
         /// <summary>

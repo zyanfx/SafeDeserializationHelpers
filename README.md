@@ -14,8 +14,7 @@ var fmt = new BinaryFormatter();
 var object = fmt.Deserialize(stream);
 
 // better: deserialization is checked against known vulnerabilities
-var fmt = new BinaryFormatter();
-fmt.Binder = new SafeSerializationBinder();
+var fmt = new BinaryFormatter().Safe();
 var object = fmt.Deserialize(stream);
 ```
 

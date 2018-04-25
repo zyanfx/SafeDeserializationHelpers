@@ -42,10 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CustomDataSetDeserializer.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="BinaryFormatterExtensions.cs" />
     <Compile Include="CustomDelegateSerializationHolder.cs" />
+    <Compile Include="DataSetSurrogate.cs" />
     <Compile Include="DelegateValidator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IDelegateValidator.cs" />

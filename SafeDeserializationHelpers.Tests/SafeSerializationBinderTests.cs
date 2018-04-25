@@ -53,23 +53,34 @@ namespace SafeDeserializationHelpers.Tests
             row["Name"] = "432";
             dt.Rows.Add(row);
 
+            var rdt = new DataTable("AnotherTestTable");
+            rdt.Columns.Add("Value", typeof(string));
+            row = rdt.NewRow();
+            row["Value"] = "Hello";
+            rdt.Rows.Add(row);
+
             // data sets
-            var ds = new DataSet("TestData");
+            var ds = new DataSet("XmlTestData");
             ds.Tables.Add(dt);
+            ds.RemotingFormat = SerializationFormat.Xml;
+
+            var rds = new DataSet("BinaryTestData");
+            rds.RemotingFormat = SerializationFormat.Binary;
+            rds.Tables.Add(rdt);
 
             // scalar values, collections and dictionaries
             var samples = new object[]
             {
-                1, "Test", func, action, dt, ds,
+                1, "Test", func, action, dt, ds, rds,
                 new List<string> { "abc", "def" },
                 new Dictionary<int, char> { { 1, 'a' }, { 2, 'b'} },
                 new Hashtable { { "Hello", "World" } },
                 new List<Delegate> { func, action, action, func },
                 new PublicSerializable { X = 123 },
                 new PrivateSerializable { Y = "Hello" },
-                new DataSet[] { ds, null, null, ds, ds },
-                new List<DataSet> { null, ds, null },
-                new Dictionary<string, DataSet> { { ds.DataSetName, ds } }
+                new DataSet[] { ds, null, null, rds, ds },
+                new List<DataSet> { null, rds, ds },
+                new Dictionary<string, DataSet> { { ds.DataSetName, ds }, { rds.DataSetName, rds } },
             };
 
             // make sure that the round-trip doesn't damage any of them

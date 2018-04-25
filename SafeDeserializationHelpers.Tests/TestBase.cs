@@ -4,6 +4,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -11,7 +12,7 @@ namespace SafeDeserializationHelpers.Tests
 {
     public class TestBase
     {
-        protected void Roundtrip(object graph, bool useBinder)
+        protected void Roundtrip(object graph, bool safe)
         {
             var data = default(byte[]);
             var fmt = new BinaryFormatter();
@@ -21,15 +22,15 @@ namespace SafeDeserializationHelpers.Tests
                 data = stream.ToArray();
             }
 
-            if (useBinder)
+            if (safe)
             {
-                fmt.Binder = new SafeSerializationBinder(fmt.Binder);
+                fmt = fmt.Safe();
             }
 
             using (var stream = new MemoryStream(data))
             {
                 var deserialized = fmt.Deserialize(stream);
-                var msg = $"Deserialized data doesn't match when {(useBinder ? string.Empty : "not ")}using binder.";
+                var msg = $"Deserialized data doesn't match when {(safe ? string.Empty : "not ")}using binder.";
                 Assert_AreEqual(graph, deserialized, msg);
             }
         }
