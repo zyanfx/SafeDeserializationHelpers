@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
+using System.Management.Automation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SafeDeserializationHelpers.Tests
@@ -105,6 +106,28 @@ namespace SafeDeserializationHelpers.Tests
         public void OrdinaryBinaryFormatterDoesntBreakOnFileDeleteDelegate()
         {
             Assert_DoesNotThrow(() => Roundtrip(new Action<string>(File.Delete), false));
+        }
+
+        [TestMethod]
+        public void SafeSerializationBinderBreaksOnFileDeleteDelegate()
+        {
+            Assert_Throws<UnsafeDeserializationException>(() =>
+                Roundtrip(new Action<string>(File.Delete), true));
+        }
+
+        [TestMethod]
+        public void OrdinaryBinaryFormatterDoesntBreakOnPSObjectType()
+        {
+            var psobject = new PSObject();
+            Assert_DoesNotThrow(() => Roundtrip(psobject, false));
+        }
+
+        [TestMethod]
+        public void SafeSerializationBinderBreaksOnPSObjectType()
+        {
+            var psobject = new PSObject();
+            Assert_Throws<UnsafeDeserializationException>(() =>
+                Roundtrip(psobject, true));
         }
     }
 }

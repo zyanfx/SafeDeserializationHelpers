@@ -4,6 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Management.Automation;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -150,6 +151,12 @@ namespace SafeDeserializationHelpers.Tests
             if (expected is DataRow dr1 && actual is DataRow dr2)
             {
                 Assert_AreEqual(dr1.ItemArray, dr2.ItemArray, msg);
+                return;
+            }
+
+            if (expected is PSObject ps1 && actual is PSObject ps2)
+            {
+                Assert_AreEqual(ps1.Properties, ps2.Properties);
                 return;
             }
 

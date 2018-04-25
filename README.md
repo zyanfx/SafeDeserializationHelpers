@@ -6,6 +6,19 @@ See [ysoserial.net](https://github.com/pwntester/ysoserial.net) project for deta
 [![appveyor](https://ci.appveyor.com/api/projects/status/github/zyanfx/safedeserializationhelpers?svg=true)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers)
 [![tests](https://img.shields.io/appveyor/tests/yallie/safedeserializationhelpers.svg)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers/build/tests)
 
+# Code sample
+
+```csharp
+// bad: deserialization can trigger arbitrary code execution
+var fmt = new BinaryFormatter();
+var object = fmt.Deserialize(stream);
+
+// better: deserialization is checked against known vulnerabilities
+var fmt = new BinaryFormatter();
+fmt.Binder = new SafeSerializationBinder();
+var object = fmt.Deserialize(stream);
+```
+
 # Usage
 
-TODO
+TODO: publish a Nuget package

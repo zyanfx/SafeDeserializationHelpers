@@ -45,7 +45,11 @@
     <Compile Include="CustomDelegateSerializationHolder.cs" />
     <Compile Include="DelegateValidator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="IDelegateValidator.cs" />
+    <Compile Include="ITypeNameValidator.cs" />
     <Compile Include="SafeSerializationBinder.cs" />
+    <Compile Include="TypeFullName.cs" />
+    <Compile Include="TypeNameValidator.cs" />
     <Compile Include="UnsafeDeserializationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

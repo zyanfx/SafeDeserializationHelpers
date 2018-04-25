@@ -30,12 +30,17 @@
         /// <inheritdoc cref="SerializationBinder" />
         public override Type BindToType(string assemblyName, string typeName)
         {
+            // prevent delegate serialization attack
             if (typeName == DelegateSerializationHolderTypeName &&
                 assemblyName.StartsWith(CoreLibraryAssemblyName, StringComparison.InvariantCultureIgnoreCase))
             {
                 return typeof(CustomDelegateSerializationHolder);
             }
 
+            // suppress known blacklisted types
+            TypeNameValidator.Default.ValidateTypeName(assemblyName, typeName);
+
+            // chain to the original type binder if exists
             return NextBinder?.BindToType(assemblyName, typeName);
         }
     }

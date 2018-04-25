@@ -6,7 +6,7 @@
     /// <summary>
     /// Blacklist-based delegate validator.
     /// </summary>
-    public class DelegateValidator
+    public class DelegateValidator : IDelegateValidator
     {
         /// <summary>
         /// The default blacklist of the namespaces.
@@ -32,9 +32,9 @@
         }
 
         /// <summary>
-        /// Gets or sets the default <see cref="DelegateValidator"/> instance.
+        /// Gets or sets the default <see cref="IDelegateValidator"/> instance.
         /// </summary>
-        public static DelegateValidator Default { get; set; } = new DelegateValidator();
+        public static IDelegateValidator Default { get; set; } = new DelegateValidator();
 
         private HashSet<string> BlacklistedNamespaces { get; }
 
