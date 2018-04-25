@@ -1,24 +1,22 @@
 ﻿namespace SafeDeserializationHelpers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
     using System.Runtime.Serialization;
-    using System.Text;
+    using System.Security.Permissions;
 
     /// <summary>
     /// Custom replacement for the DelegateSerializationHolder featuring delegate validation.
     /// </summary>
     [Serializable]
-    public class CustomDelegateSerializationHolder : ISerializable, IObjectReference
+    public sealed class CustomDelegateSerializationHolder : ISerializable, IObjectReference
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomDelegateSerializationHolder"/> class.
         /// </summary>
         /// <param name="info">Serialization info.</param>
         /// <param name="context">Streaming context</param>
-        protected CustomDelegateSerializationHolder(SerializationInfo info, StreamingContext context)
+        private CustomDelegateSerializationHolder(SerializationInfo info, StreamingContext context)
         {
             Holder = (IObjectReference)Constructor.Invoke(new object[] { info, context });
         }
@@ -34,12 +32,14 @@
         private IObjectReference Holder { get; set; }
 
         /// <inheritdoc cref="ISerializable" />
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             throw new NotSupportedException();
         }
 
         /// <inheritdoc cref="IObjectReference" />
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public object GetRealObject(StreamingContext context)
         {
             var result = Holder.GetRealObject(context);

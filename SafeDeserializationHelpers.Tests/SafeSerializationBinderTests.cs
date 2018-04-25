@@ -4,102 +4,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SafeDeserializationHelpers.Tests
 {
     [TestClass]
-    public class SafeSerializationBinderTests
+    public class SafeSerializationBinderTests : TestBase
     {
-        private void Roundtrip(object graph, bool useBinder)
-        {
-            var data = default(byte[]);
-            var fmt = new BinaryFormatter();
-            using (var stream = new MemoryStream())
-            {
-                fmt.Serialize(stream, graph);
-                data = stream.ToArray();
-            }
-
-            if (useBinder)
-            {
-                fmt.Binder = new SafeSerializationBinder(fmt.Binder);
-            }
-
-            using (var stream = new MemoryStream(data))
-            {
-                var deserialized = fmt.Deserialize(stream);
-                var msg = $"Deserialized data doesn't match when {(useBinder ? string.Empty : "not ")}using binder.";
-                AssertAreEqual(graph, deserialized, msg);
-            }
-        }
-
-        private void AssertAreEqual(object expected, object actual, string msg)
-        {
-            if (expected is Delegate del1 && actual is Delegate del2)
-            {
-                AssertAreEqual(del1.Target, del2.Target, msg);
-                AssertAreEqual(del1.Method, del2.Method, msg);
-                return;
-            }
-
-            if (expected is string s1 && actual is string s2)
-            {
-                // avoid comparing strings as IEnumerables
-                Assert.AreEqual(s1, s2, msg);
-                return;
-            }
-
-            if (expected is IEnumerable enum1 && actual is IEnumerable enum2)
-            {
-                Assert.AreEqual(enum1.OfType<object>().Count(), enum2.OfType<object>().Count(), msg);
-                foreach (var item in enum1.OfType<object>().Zip(enum2.OfType<object>(), (e1, e2) => (e1, e2)))
-                {
-                    AssertAreEqual(item.e1, item.e2, msg);
-                }
-
-                return;
-            }
-
-            if (expected is IDictionary dic1 && actual is IDictionary dic2)
-            {
-                Assert.AreEqual(dic1.Count, dic2.Count, msg);
-                foreach (var item in dic1.OfType<object>().Zip(dic2.OfType<object>(), (e1, e2) => (e1, e2)))
-                {
-                    AssertAreEqual(item.e1, item.e2, msg);
-                }
-
-                return;
-            }
-
-            if (expected is DataTable dt1 && actual is DataTable dt2)
-            {
-                AssertAreEqual(dt1.TableName, dt2.TableName, msg);
-                AssertAreEqual(dt1.Columns, dt2.Columns, msg);
-                AssertAreEqual(dt1.Rows, dt2.Rows, msg);
-                return;
-            }
-
-            if (expected is DataColumn dc1 && actual is DataColumn dc2)
-            {
-                AssertAreEqual(dc1.ColumnName, dc2.ColumnName, msg);
-                AssertAreEqual(dc1.DataType, dc2.DataType, msg);
-                return;
-            }
-
-            if (expected is DataRow dr1 && actual is DataRow dr2)
-            {
-                AssertAreEqual(dr1.ItemArray, dr2.ItemArray, msg);
-                return;
-            }
-
-            Assert.AreEqual(expected, actual, msg);
-        }
-
         [Serializable]
         public class PublicSerializable
         {
@@ -141,10 +52,14 @@ namespace SafeDeserializationHelpers.Tests
             row["Name"] = "432";
             dt.Rows.Add(row);
 
+            // data sets
+            var ds = new DataSet("TestData");
+            ds.Tables.Add(dt);
+
             // scalar values, collections and dictionaries
             var samples = new object[]
             {
-                1, "Test", func, action, dt,
+                1, "Test", func, action, dt, ds,
                 new List<string> { "abc", "def" },
                 new Dictionary<int, char> { { 1, 'a' }, { 2, 'b'} },
                 new Hashtable { { "Hello", "World" } },
@@ -164,13 +79,32 @@ namespace SafeDeserializationHelpers.Tests
         [TestMethod]
         public void OrdinaryBinaryFormatterDoesntBreakOnProcessStartDelegate()
         {
-            Roundtrip(new Func<string, string, Process>(Process.Start), false);
+            Assert_DoesNotThrow(() =>
+                Roundtrip(new Func<string, string, Process>(Process.Start), false));
         }
 
-        [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
-        public void SafeSerializationBinderBreaksOnProcessStartDelegate()
+        [TestMethod]
+        public void SafeSerializationBinderBreaksOnProcessStartDelegate1()
         {
-            Roundtrip(new Func<string, string, Process>(Process.Start), true);
+            Assert_Throws<UnsafeDeserializationException>(() =>
+                Roundtrip(new Func<string, string, Process>(Process.Start), true));
+        }
+
+        [TestMethod]
+        public void SafeSerializationBinderBreaksOnProcessStartDelegate2()
+        {
+            // add Process.Start somewhere to the chain of the delegates
+            var d = new Func<string, string, Process>((s1, s2) => null);
+            var e = new Func<string, string, Process>(Process.Start);
+            var f = Delegate.Combine(d, d, e, d, d);
+
+            Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(f, true));
+        }
+
+        [TestMethod]
+        public void OrdinaryBinaryFormatterDoesntBreakOnFileDeleteDelegate()
+        {
+            Assert_DoesNotThrow(() => Roundtrip(new Action<string>(File.Delete), false));
         }
     }
 }

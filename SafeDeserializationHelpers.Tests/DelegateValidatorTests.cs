@@ -9,33 +9,38 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class DelegateValidatorTests
+    public class DelegateValidatorTests : TestBase
     {
         [TestMethod]
         public void NullDelegateIsValid()
         {
-            // Assert.DoesNotThrow
-            DelegateValidator.Default.ValidateDelegate(null);
+            Assert_DoesNotThrow(() =>
+                DelegateValidator.Default.ValidateDelegate(null));
         }
 
         [TestMethod]
         public void DelegateIsValidUnlessBlacklisted()
         {
-            DelegateValidator.Default.ValidateDelegate(new Action<int>(x => { }));
+            Assert_DoesNotThrow(() =>
+                DelegateValidator.Default.ValidateDelegate(new Action<int>(x => { })));
         }
 
-        [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
+        [TestMethod]
         public void SystemDiagnosticsDelegatesAreNotValid()
         {
             var del = new Func<string, string, Process>(Process.Start);
-            DelegateValidator.Default.ValidateDelegate(del);
+
+            Assert_Throws<UnsafeDeserializationException>(() =>
+                DelegateValidator.Default.ValidateDelegate(del));
         }
 
-        [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
+        [TestMethod]
         public void SystemIODelegatesAreNotValid()
         {
             var del = new Action<string>(File.Delete);
-            DelegateValidator.Default.ValidateDelegate(del);
+
+            Assert_Throws<UnsafeDeserializationException>(() =>
+                DelegateValidator.Default.ValidateDelegate(del));
         }
 
         [TestMethod]
@@ -43,16 +48,20 @@
         {
             var del = new Func<string, string, Process>((a, b) => null);
             del = Delegate.Combine(del, del, del) as Func<string, string, Process>;
-            DelegateValidator.Default.ValidateDelegate(del);
+
+            Assert_DoesNotThrow(() =>
+                DelegateValidator.Default.ValidateDelegate(del));
         }
 
-        [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
+        [TestMethod]
         public void MulticastDelegatesWithSystemDiagnosticsMethodsAreNotValid()
         {
             var del = new Func<string, string, Process>((a, b) => null);
             var start = new Func<string, string, Process>(Process.Start);
             del = Delegate.Combine(del, del, start, del, del) as Func<string, string, Process>;
-            DelegateValidator.Default.ValidateDelegate(del);
+
+            Assert_Throws<UnsafeDeserializationException>(() =>
+                DelegateValidator.Default.ValidateDelegate(del));
         }
     }
 }

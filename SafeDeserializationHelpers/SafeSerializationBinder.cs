@@ -1,10 +1,7 @@
 ﻿namespace SafeDeserializationHelpers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
-    using System.Text;
 
     /// <inheritdoc cref="SerializationBinder" />
     public class SafeSerializationBinder : SerializationBinder

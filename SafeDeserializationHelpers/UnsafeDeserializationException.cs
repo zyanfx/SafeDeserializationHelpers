@@ -1,11 +1,8 @@
 ﻿namespace SafeDeserializationHelpers
 {
     using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Runtime.Serialization;
     using System.Security;
-    using System.Text;
 
     /// <summary>
     /// Exception to be thrown when possible deserialization vulnerability is detected.
