@@ -39,8 +39,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomDelegateSerializationHolder.cs" />
     <Compile Include="DelegateValidator.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="SafeSerializationBinder.cs" />
     <Compile Include="UnsafeDeserializationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

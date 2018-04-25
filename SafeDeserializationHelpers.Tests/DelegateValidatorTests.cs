@@ -15,27 +15,27 @@
         public void NullDelegateIsValid()
         {
             // Assert.DoesNotThrow
-            new DelegateValidator().ValidateDelegate(null);
+            DelegateValidator.Default.ValidateDelegate(null);
         }
 
         [TestMethod]
         public void DelegateIsValidUnlessBlacklisted()
         {
-            new DelegateValidator().ValidateDelegate(new Action<int>(x => { }));
+            DelegateValidator.Default.ValidateDelegate(new Action<int>(x => { }));
         }
 
         [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
         public void SystemDiagnosticsDelegatesAreNotValid()
         {
             var del = new Func<string, string, Process>(Process.Start);
-            new DelegateValidator().ValidateDelegate(del);
+            DelegateValidator.Default.ValidateDelegate(del);
         }
 
         [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
         public void SystemIODelegatesAreNotValid()
         {
             var del = new Action<string>(File.Delete);
-            new DelegateValidator().ValidateDelegate(del);
+            DelegateValidator.Default.ValidateDelegate(del);
         }
 
         [TestMethod]
@@ -43,7 +43,7 @@
         {
             var del = new Func<string, string, Process>((a, b) => null);
             del = Delegate.Combine(del, del, del) as Func<string, string, Process>;
-            new DelegateValidator().ValidateDelegate(del);
+            DelegateValidator.Default.ValidateDelegate(del);
         }
 
         [TestMethod, ExpectedException(typeof(UnsafeDeserializationException))]
@@ -52,7 +52,7 @@
             var del = new Func<string, string, Process>((a, b) => null);
             var start = new Func<string, string, Process>(Process.Start);
             del = Delegate.Combine(del, del, start, del, del) as Func<string, string, Process>;
-            new DelegateValidator().ValidateDelegate(del);
+            DelegateValidator.Default.ValidateDelegate(del);
         }
     }
 }

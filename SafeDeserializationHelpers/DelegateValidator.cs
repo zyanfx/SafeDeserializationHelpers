@@ -33,6 +33,11 @@
             BlacklistedNamespaces = new HashSet<string>(blacklistedNamespaces, StringComparer.OrdinalIgnoreCase);
         }
 
+        /// <summary>
+        /// Gets or sets the default <see cref="DelegateValidator"/> instance.
+        /// </summary>
+        public static DelegateValidator Default { get; set; } = new DelegateValidator();
+
         private HashSet<string> BlacklistedNamespaces { get; }
 
         /// <summary>
