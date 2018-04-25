@@ -125,6 +125,13 @@ namespace SafeDeserializationHelpers.Tests
                 return;
             }
 
+            if (expected is DictionaryEntry de1 && actual is DictionaryEntry de2)
+            {
+                Assert_AreEqual(de1.Key, de2.Key, msg);
+                Assert_AreEqual(de1.Value, de2.Value, msg);
+                return;
+            }
+
             if (expected is DataSet ds1 && actual is DataSet ds2)
             {
                 Assert_AreEqual(ds1.DataSetName, ds2.DataSetName, msg);

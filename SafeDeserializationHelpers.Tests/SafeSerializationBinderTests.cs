@@ -120,14 +120,31 @@ namespace SafeDeserializationHelpers.Tests
         {
             var psobject = new PSObject();
             Assert_DoesNotThrow(() => Roundtrip(psobject, false));
+
+            var array = new object[] { 1, "Hello!", psobject, "Goodbye!" };
+            Assert_DoesNotThrow(() => Roundtrip(array, false));
+
+            var hash = new Hashtable { { "a", "b" }, { "c", array }, { "d", 123 } };
+            Assert_DoesNotThrow(() => Roundtrip(hash, false));
+
+            var list = new List<Hashtable> { null, hash, null, hash };
+            Assert_DoesNotThrow(() => Roundtrip(list, false));
         }
 
         [TestMethod]
         public void SafeSerializationBinderBreaksOnPSObjectType()
         {
             var psobject = new PSObject();
-            Assert_Throws<UnsafeDeserializationException>(() =>
-                Roundtrip(psobject, true));
+            Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(psobject, true));
+
+            var array = new object[] { 1, "Hello!", psobject, "Goodbye!" };
+            Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(array, true));
+
+            var hash = new Hashtable { { "a", "b" }, { "c", array }, { "d", 123 } };
+            Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(hash, true));
+
+            var list = new List<Hashtable> { null, hash, null, hash };
+            Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(list, true));
         }
     }
 }
