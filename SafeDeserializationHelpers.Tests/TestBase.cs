@@ -1,66 +1,16 @@
 ﻿using System;
 using System.Collections;
 using System.Data;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Security;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SafeDeserializationHelpers.Tests
 {
-    [TestClass]
     public class TestBase
     {
-        [TestMethod, ExpectedException(typeof(AssertFailedException))]
-        public void AssertDoesntThrowFailsIfExceptionWasThrown()
-        {
-            Assert_DoesNotThrow(() => { throw new SecurityException(); });
-        }
-
-        [TestMethod, ExpectedException(typeof(AssertFailedException))]
-        public void AssertThrowsFailsIfNoExceptionWasThrown()
-        {
-            Assert_Throws<SecurityException>(() => { });
-        }
-
-        [TestMethod, ExpectedException(typeof(AssertFailedException))]
-        public void AssertThrowsFailsIfUnexpectedExceptionWasThrown()
-        {
-            Assert_Throws<SecurityException>(() => { new ArgumentNullException(); });
-        }
-
-        [TestMethod]
-        public void AssertAreEqualWorksOnLotsOfDataTypes()
-        {
-            Assert_DoesNotThrow(() =>
-            {
-                Assert_AreEqual(1, 1);
-                Assert_AreEqual("Hello", "Hello");
-                Assert_AreEqual(new DataTable("Test"), new DataTable("Test"));
-                Assert_AreEqual(new Func<string, string, Process>(Process.Start), new Func<string, string, Process>(Process.Start));
-            });
-
-            Assert_Throws<AssertFailedException>(() =>
-            {
-                Assert_AreEqual(1, 2);
-            });
-        }
-
-        [TestMethod]
-        public void RoundtripIsExpectedToSucceedOnPrimitives()
-        {
-            Assert_DoesNotThrow(() =>
-            {
-                Roundtrip(1, false);
-                Roundtrip(1, true);
-                Roundtrip("Hello", false);
-                Roundtrip("Hello", true);
-            });
-        }
-
         protected void Roundtrip(object graph, bool useBinder)
         {
             var data = default(byte[]);
@@ -167,6 +117,24 @@ namespace SafeDeserializationHelpers.Tests
                 return;
             }
 
+            if (expected != null && actual != null &&
+                expected.GetType().IsValueType && !expected.GetType().IsPrimitive &&
+                actual.GetType().IsValueType && !actual.GetType().IsPrimitive)
+            {
+                var expectedType = expected.GetType();
+                var actualType = actual.GetType();
+                Assert_AreEqual(expectedType, actualType, msg);
+
+                foreach (var prop in expectedType.GetProperties())
+                {
+                    var exp = prop.GetValue(expected);
+                    var act = prop.GetValue(actual);
+                    Assert_AreEqual(exp, act, msg);
+                }
+
+                return;
+            }
+
             Assert.AreEqual(expected, actual, msg);
         }
 
@@ -182,7 +150,7 @@ namespace SafeDeserializationHelpers.Tests
             }
         }
 
-        protected void Assert_Throws<T>(Action action) where T : Exception
+        protected void Assert_Throws<T>(Action action, string msg = null) where T : Exception
         {
             try
             {
@@ -194,10 +162,10 @@ namespace SafeDeserializationHelpers.Tests
             }
             catch (Exception ex)
             {
-                Assert.Fail($"Expected to catch exception of type {typeof(T).Name}, but here is what we caught: {ex.ToString()}");
+                Assert.Fail(msg ?? $"Expected to catch exception of type {typeof(T).Name}, but here is what we caught: {ex.ToString()}");
             }
 
-            Assert.Fail($"Expected to catch exception of type {typeof(T).Name}, but no exception was thrown.");
+            Assert.Fail(msg ?? $"Expected to catch exception of type {typeof(T).Name}, but no exception was thrown.");
         }
     }
 }

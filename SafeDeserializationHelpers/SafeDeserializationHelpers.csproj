@@ -42,6 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomDataSetDeserializer.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="CustomDelegateSerializationHolder.cs" />
     <Compile Include="DelegateValidator.cs" />
     <Compile Include="GlobalSuppressions.cs" />

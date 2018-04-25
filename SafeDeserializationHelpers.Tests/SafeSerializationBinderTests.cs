@@ -66,7 +66,10 @@ namespace SafeDeserializationHelpers.Tests
                 new Hashtable { { "Hello", "World" } },
                 new List<Delegate> { func, action, action, func },
                 new PublicSerializable { X = 123 },
-                new PrivateSerializable { Y = "Hello" }
+                new PrivateSerializable { Y = "Hello" },
+                new DataSet[] { ds, null, null, ds, ds },
+                new List<DataSet> { null, ds, null },
+                new Dictionary<string, DataSet> { { ds.DataSetName, ds } }
             };
 
             // make sure that the round-trip doesn't damage any of them
