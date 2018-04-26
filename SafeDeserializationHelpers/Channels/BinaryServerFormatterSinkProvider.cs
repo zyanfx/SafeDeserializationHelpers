@@ -29,6 +29,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#pragma warning disable 1591 // missing XML comments
+
 #define NET_1_1
 
 using System.Collections;
@@ -36,75 +38,82 @@ using System.Runtime.Serialization.Formatters;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Channels;
 using System;
+using System.Security.Permissions;
 
 namespace SafeDeserializationHelpers.Channels
 {
-	public class BinaryServerFormatterSinkProvider :
-		IServerFormatterSinkProvider, IServerChannelSinkProvider
-	{
-		IServerChannelSinkProvider next = null;
-		BinaryCore _binaryCore;
+    public class BinaryServerFormatterSinkProvider :
+        IServerFormatterSinkProvider, IServerChannelSinkProvider
+    {
+        IServerChannelSinkProvider next = null;
+        BinaryCore _binaryCore;
 
 #if NET_1_0
 		internal static string[] AllowedProperties = new string [] { "includeVersions", "strictBinding" };
 #else
-		internal static string[] AllowedProperties = new string [] { "includeVersions", "strictBinding", "typeFilterLevel" };
+        internal static string[] AllowedProperties = new string[] { "includeVersions", "strictBinding", "typeFilterLevel" };
 #endif
 
-		public BinaryServerFormatterSinkProvider ()
-		{
-			_binaryCore = BinaryCore.DefaultInstance;
-		}
+        public BinaryServerFormatterSinkProvider()
+        {
+            _binaryCore = BinaryCore.DefaultInstance;
+        }
 
-		public BinaryServerFormatterSinkProvider (IDictionary properties,
-							  ICollection providerData)
-		{
-			_binaryCore = new BinaryCore (this, properties, AllowedProperties);
-		}
+        public BinaryServerFormatterSinkProvider(IDictionary properties,
+            ICollection providerData)
+        {
+            _binaryCore = new BinaryCore(this, properties, AllowedProperties);
+        }
 
-		public IServerChannelSinkProvider Next
-		{
-			get {
-				return next;
-			}
+        public IServerChannelSinkProvider Next
+        {
+            [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+            get
+            {
+                return next;
+            }
 
-			set {
-				next = value;
-			}
-		}
+            [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+            set
+            {
+                next = value;
+            }
+        }
 
 #if NET_1_1
-		[ComVisible(false)]
-		public TypeFilterLevel TypeFilterLevel
-		{
-			get { return _binaryCore.TypeFilterLevel; }
-			set
-			{
-				IDictionary props = (IDictionary) ((ICloneable)_binaryCore.Properties).Clone ();
-				props ["typeFilterLevel"] = value;
-				_binaryCore = new BinaryCore (this, props, AllowedProperties);
-			}
-		}
+        [ComVisible(false)]
+        public TypeFilterLevel TypeFilterLevel
+        {
+            get { return _binaryCore.TypeFilterLevel; }
+            set
+            {
+                IDictionary props = (IDictionary)((ICloneable)_binaryCore.Properties).Clone();
+                props["typeFilterLevel"] = value;
+                _binaryCore = new BinaryCore(this, props, AllowedProperties);
+            }
+        }
 #endif
 
-		public IServerChannelSink CreateSink (IChannelReceiver channel)
-		{
-			IServerChannelSink next_sink = null;
-			BinaryServerFormatterSink result;
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+        public IServerChannelSink CreateSink(IChannelReceiver channel)
+        {
+            IServerChannelSink next_sink = null;
+            BinaryServerFormatterSink result;
 
-			if (next != null)
-				next_sink = next.CreateSink (channel);
+            if (next != null)
+                next_sink = next.CreateSink(channel);
 
-			result = new BinaryServerFormatterSink (BinaryServerFormatterSink.Protocol.Other,
-								next_sink, channel);
+            result = new BinaryServerFormatterSink(BinaryServerFormatterSink.Protocol.Other,
+                next_sink, channel);
 
-			result.BinaryCore = _binaryCore;
-			return result;
-		}
+            result.BinaryCore = _binaryCore;
+            return result;
+        }
 
-		public void GetChannelData (IChannelDataStore channelData)
-		{
-			// Nothing to add here
-		}
-	}
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+        public void GetChannelData(IChannelDataStore channelData)
+        {
+            // Nothing to add here
+        }
+    }
 }

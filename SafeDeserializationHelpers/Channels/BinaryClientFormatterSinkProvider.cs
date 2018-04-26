@@ -29,59 +29,67 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#pragma warning disable 1591 // missing XML comments
+
 using System.Collections;
 using System.Runtime.Remoting.Channels;
+using System.Security.Permissions;
 
 namespace SafeDeserializationHelpers.Channels
 {
-	public class BinaryClientFormatterSinkProvider :
-		IClientFormatterSinkProvider, IClientChannelSinkProvider
-	{
-		IClientChannelSinkProvider next = null;
-		BinaryCore _binaryCore;
+    public class BinaryClientFormatterSinkProvider :
+        IClientFormatterSinkProvider, IClientChannelSinkProvider
+    {
+        IClientChannelSinkProvider next = null;
+        BinaryCore _binaryCore;
 
 #if NET_1_1
 		static string[] allowedProperties = new string [] { "includeVersions", "strictBinding", "typeFilterLevel" };
 #else
-		static string[] allowedProperties = new string [] { "includeVersions", "strictBinding" };
+        static string[] allowedProperties = new string[] { "includeVersions", "strictBinding" };
 #endif
 
-		public BinaryClientFormatterSinkProvider ()
-		{
-			_binaryCore = BinaryCore.DefaultInstance;
-		}
+        public BinaryClientFormatterSinkProvider()
+        {
+            _binaryCore = BinaryCore.DefaultInstance;
+        }
 
-		public BinaryClientFormatterSinkProvider (IDictionary properties,
-							  ICollection providerData)
-		{
-			_binaryCore = new BinaryCore (this, properties, allowedProperties);
-		}
+        public BinaryClientFormatterSinkProvider(IDictionary properties,
+            ICollection providerData)
+        {
+            _binaryCore = new BinaryCore(this, properties, allowedProperties);
+        }
 
-		public IClientChannelSinkProvider Next
-		{
-			get {
-				return next;
-			}
+        public IClientChannelSinkProvider Next
+        {
+            [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+            get
+            {
+                return next;
+            }
 
-			set {
-				next = value;
-			}
-		}
+            [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+            set
+            {
+                next = value;
+            }
+        }
 
-		public IClientChannelSink CreateSink (IChannelSender channel,
-						      string url,
-						      object remoteChannelData)
-		{
-			IClientChannelSink next_sink = null;
-			BinaryClientFormatterSink result;
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
+        public IClientChannelSink CreateSink(IChannelSender channel,
+            string url,
+            object remoteChannelData)
+        {
+            IClientChannelSink next_sink = null;
+            BinaryClientFormatterSink result;
 
-			if (next != null)
-				next_sink = next.CreateSink (channel, url, remoteChannelData);
+            if (next != null)
+                next_sink = next.CreateSink(channel, url, remoteChannelData);
 
-			result = new BinaryClientFormatterSink (next_sink);
-			result.BinaryCore = _binaryCore;
+            result = new BinaryClientFormatterSink(next_sink);
+            result.BinaryCore = _binaryCore;
 
-			return result;
-		}
-	}
+            return result;
+        }
+    }
 }

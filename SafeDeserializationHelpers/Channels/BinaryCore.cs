@@ -28,6 +28,8 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
+#pragma warning disable 1591 // missing XML comments
+
 #define NET_1_1
 
 using System;
@@ -40,114 +42,114 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 namespace SafeDeserializationHelpers.Channels
 {
-	internal class BinaryCore
-	{
-		BinaryFormatter _serializationFormatter;
-		BinaryFormatter _deserializationFormatter;
-		bool _includeVersions = true;
-		bool _strictBinding = false;
-		IDictionary _properties;
+    internal class BinaryCore
+    {
+        BinaryFormatter _serializationFormatter;
+        BinaryFormatter _deserializationFormatter;
+        bool _includeVersions = true;
+        bool _strictBinding = false;
+        IDictionary _properties;
 
 #if NET_1_1
-		TypeFilterLevel _filterLevel = TypeFilterLevel.Low;
+        TypeFilterLevel _filterLevel = TypeFilterLevel.Low;
 #endif
 
-		public static BinaryCore DefaultInstance = new BinaryCore ();
+        public static BinaryCore DefaultInstance = new BinaryCore();
 
-		public BinaryCore (object owner, IDictionary properties, string[] allowedProperties)
-		{
-			_properties = properties;
+        public BinaryCore(object owner, IDictionary properties, string[] allowedProperties)
+        {
+            _properties = properties;
 
-			if (_properties == null)
-			{
-				_properties = new Hashtable(10);
-			}
+            if (_properties == null)
+            {
+                _properties = new Hashtable(10);
+            }
 
-			foreach(DictionaryEntry property in properties)
-			{
-				string key = (string) property.Key;
-				if (Array.IndexOf (allowedProperties, key) == -1)
-					throw new RemotingException (owner.GetType().Name + " does not recognize '" + key + "' configuration property");
+            foreach (DictionaryEntry property in properties)
+            {
+                string key = (string)property.Key;
+                if (Array.IndexOf(allowedProperties, key) == -1)
+                    throw new RemotingException(owner.GetType().Name + " does not recognize '" + key + "' configuration property");
 
-				switch (key)
-				{
-					case "includeVersions":
-						_includeVersions = Convert.ToBoolean (property.Value);
-						break;
+                switch (key)
+                {
+                    case "includeVersions":
+                        _includeVersions = Convert.ToBoolean(property.Value);
+                        break;
 
-					case "strictBinding":
-						_strictBinding = Convert.ToBoolean (property.Value);
-						break;
+                    case "strictBinding":
+                        _strictBinding = Convert.ToBoolean(property.Value);
+                        break;
 
 #if NET_1_1
-					case "typeFilterLevel":
-						if (property.Value is TypeFilterLevel)
-							_filterLevel = (TypeFilterLevel) property.Value;
-						else {
-							string s = (string) property.Value;
-							_filterLevel = (TypeFilterLevel) Enum.Parse (typeof(TypeFilterLevel), s);
-						}
-						break;
+                    case "typeFilterLevel":
+                        if (property.Value is TypeFilterLevel)
+                            _filterLevel = (TypeFilterLevel)property.Value;
+                        else
+                        {
+                            string s = (string)property.Value;
+                            _filterLevel = (TypeFilterLevel)Enum.Parse(typeof(TypeFilterLevel), s);
+                        }
+                        break;
 #endif
+                }
+            }
 
-				}
-			}
+            Init();
+        }
 
-			Init ();
-		}
+        public BinaryCore()
+        {
+            _properties = new Hashtable();
+            Init();
+        }
 
-		public BinaryCore ()
-		{
-			_properties = new Hashtable ();
-			Init ();
-		}
-
-		public void Init ()
-		{
-			RemotingSurrogateSelector surrogateSelector = new RemotingSurrogateSelector ();
-			StreamingContext context = new StreamingContext (StreamingContextStates.Remoting, null);
+        public void Init()
+        {
+            RemotingSurrogateSelector surrogateSelector = new RemotingSurrogateSelector();
+            StreamingContext context = new StreamingContext(StreamingContextStates.Remoting, null);
 
 #if !TARGET_JVM
-			_serializationFormatter = new BinaryFormatter (surrogateSelector, context);
-			_deserializationFormatter = new BinaryFormatter (null, context);
+            _serializationFormatter = new BinaryFormatter(surrogateSelector, context);
+            _deserializationFormatter = new BinaryFormatter(null, context);
 #else
-			_serializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (surrogateSelector, context, false);
-			_deserializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (null, context, false);
+            _serializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (surrogateSelector, context, false);
+            _deserializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (null, context, false);
 #endif
 
 #if NET_1_1
-			_serializationFormatter.FilterLevel = _filterLevel;
-			_deserializationFormatter.FilterLevel = _filterLevel;
+            _serializationFormatter.FilterLevel = _filterLevel;
+            _deserializationFormatter.FilterLevel = _filterLevel;
 #endif
 
-			if (!_includeVersions || !_strictBinding)
-			{
-				_serializationFormatter.AssemblyFormat = FormatterAssemblyStyle.Simple;
-				_deserializationFormatter.AssemblyFormat = FormatterAssemblyStyle.Simple;
-			}
-		}
+            if (!_includeVersions || !_strictBinding)
+            {
+                _serializationFormatter.AssemblyFormat = FormatterAssemblyStyle.Simple;
+                _deserializationFormatter.AssemblyFormat = FormatterAssemblyStyle.Simple;
+            }
+        }
 
-		public BinaryFormatter Serializer
-		{
-			get { return _serializationFormatter; }
-		}
+        public BinaryFormatter Serializer
+        {
+            get { return _serializationFormatter; }
+        }
 
-		public BinaryFormatter Deserializer
-		{
-			get { return _deserializationFormatter; }
-		}
+        public BinaryFormatter Deserializer
+        {
+            get { return _deserializationFormatter; }
+        }
 
-		public IDictionary Properties
-		{
-			get { return _properties; }
-		}
+        public IDictionary Properties
+        {
+            get { return _properties; }
+        }
 
 #if NET_1_1
-		public TypeFilterLevel TypeFilterLevel
-		{
-			get { return _filterLevel; }
-		}
+        public TypeFilterLevel TypeFilterLevel
+        {
+            get { return _filterLevel; }
+        }
 #endif
-	}
+    }
 }
 

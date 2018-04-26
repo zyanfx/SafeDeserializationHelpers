@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;NET_1_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>bin\Debug\SafeDeserializationHelpers.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -29,7 +29,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;NET_1_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <DocumentationFile>bin\Release\SafeDeserializationHelpers.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
@@ -44,6 +44,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryFormatterExtensions.cs" />
+    <Compile Include="Channels\BinaryClientFormatterSink.cs" />
+    <Compile Include="Channels\BinaryClientFormatterSinkProvider.cs" />
+    <Compile Include="Channels\BinaryCore.cs" />
+    <Compile Include="Channels\BinaryServerFormatterSink.cs" />
+    <Compile Include="Channels\BinaryServerFormatterSinkProvider.cs" />
+    <Compile Include="Channels\CommonTransportKeys.cs" />
     <Compile Include="CustomDelegateSerializationHolder.cs" />
     <Compile Include="DataSetSurrogate.cs" />
     <Compile Include="DelegateValidator.cs" />
