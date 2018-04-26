@@ -110,8 +110,8 @@ namespace SafeDeserializationHelpers.Channels
             StreamingContext context = new StreamingContext(StreamingContextStates.Remoting, null);
 
 #if !TARGET_JVM
-            _serializationFormatter = new BinaryFormatter(surrogateSelector, context);
-            _deserializationFormatter = new BinaryFormatter(null, context);
+            _serializationFormatter = new BinaryFormatter(surrogateSelector, context).Safe();
+            _deserializationFormatter = new BinaryFormatter(null, context).Safe();
 #else
             _serializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (surrogateSelector, context, false);
             _deserializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (null, context, false);
