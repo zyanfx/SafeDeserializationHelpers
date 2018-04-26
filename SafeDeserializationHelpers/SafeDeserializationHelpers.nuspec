@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>SafeDeserializationHelpers</id>
+    <version>0.1</version>
+    <title>SafeDeserializationHelpers</title>
+    <authors>yallie</authors>
+    <owners>Alexey Yakovlev</owners>
+    <licenseUrl>https://github.com/zyanfx/SafeDeserializationHelpers/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/zyanfx/SafeDeserializationHelpers/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</description>
+    <summary>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</summary>
+    <releaseNotes>Initial beta release.</releaseNotes>
+    <language>en-US</language>
+    <tags>security deserialization BinaryFormatter</tags>
+  </metadata>
+  <files>
+    <file src="bin\Release\SafeDeserializationHelpers.dll" target="lib\net35\SafeDeserializationHelpers.dll" />
+    <file src="bin\Release\SafeDeserializationHelpers.xml" target="lib\net35\SafeDeserializationHelpers.xml" />
+  </files>
+</package>

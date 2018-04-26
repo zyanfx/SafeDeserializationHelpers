@@ -42,15 +42,17 @@ TODO: publish a Nuget package
 * [Exploiting .NET Managed DCOM](https://googleprojectzero.blogspot.com/2017/04/exploiting-net-managed-dcom.html) by James Forshaw
 * [Are you my Type?](https://media.blackhat.com/bh-us-12/Briefings/Forshaw/BH_US_12_Forshaw_Are_You_My_Type_WP.pdf) by James Forshaw
 * [Attacking .NET serialization](https://speakerdeck.com/pwntester/attacking-net-serialization) by Alvaro Munoz
+* [Friday the 13th: JSON Attacks](https://www.blackhat.com/docs/us-17/thursday/us-17-Munoz-Friday-The-13th-Json-Attacks.pdf) by Alvaro Munoz and Oleksandr Mirosh
+* [Severe Deserialization Issues Also Affect .NET, Not Just Java](https://www.bleepingcomputer.com/news/security/severe-deserialization-issues-also-affect-net-not-just-java/) by Catalin Cimpanu
 * [ysoserial.net](https://github.com/pwntester/ysoserial.net) exploit collection by Alvaro Munoz
 
 # Thanks
 
 * [Markus Wulftange](https://github.com/mwulftange) — for bringing up the problem to my attention
 * [James Forshaw](https://github.com/tyranid) — for the great blog posts, papers and talks on the subject
-* [Alvaro Munoz](https://github.com/pwntester) — for the awesome educational ysoserial.net project
+* [Alvaro Munoz](https://github.com/pwntester), Oleksandr Mirosh — for the awesome educational ysoserial.net project
 * [Chris Frohoff](https://github.com/frohoff) — for the original ysoserial Java project
-* [Levi Broderick](https://github.com/GrabYourPitchforks), Oleksandr Mirosh — for more malicious gadgets
+* [Levi Broderick](https://github.com/GrabYourPitchforks) — for more malicious gadgets
 
 # License
 

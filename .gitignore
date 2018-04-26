@@ -4,3 +4,5 @@ packages
 .vs
 *.suo
 *.user
+*.nupkg
+*.log
