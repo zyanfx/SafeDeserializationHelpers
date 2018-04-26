@@ -10,7 +10,7 @@
     /// <summary>
     /// Deserialization surrogate for the DataSet class.
     /// </summary>
-    public class DataSetSurrogate : ISerializationSurrogate
+    internal class DataSetSurrogate : ISerializationSurrogate
     {
         private static ConstructorInfo Constructor { get; } = typeof(DataSet).GetConstructor(
             BindingFlags.Instance | BindingFlags.NonPublic,

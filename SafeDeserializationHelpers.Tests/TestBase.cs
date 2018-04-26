@@ -6,6 +6,7 @@ using System.Linq;
 using System.Management.Automation;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Principal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SafeDeserializationHelpers.Tests
@@ -14,14 +15,35 @@ namespace SafeDeserializationHelpers.Tests
     {
         protected void Roundtrip(object graph, bool safe)
         {
-            var data = default(byte[]);
+            // make sure that safe mode doesn't affect the serialization
+            var originalData = Serialize(graph, false);
+            var safeData = Serialize(graph, true);
+            Assert_AreEqual(originalData, safeData);
+
+            // make sure that deserialized graph is the same as the original
+            var deserialized = Deserialize(originalData, safe);
+            var msg = $"Deserialized data doesn't match when {(safe ? string.Empty : "not ")}using binder.";
+            Assert_AreEqual(graph, deserialized, msg);
+        }
+
+        private byte[] Serialize(object graph, bool safe)
+        {
             var fmt = new BinaryFormatter();
+            if (safe)
+            {
+                fmt = fmt.Safe();
+            }
+
             using (var stream = new MemoryStream())
             {
                 fmt.Serialize(stream, graph);
-                data = stream.ToArray();
+                return stream.ToArray();
             }
+        }
 
+        private object Deserialize(byte[] data, bool safe)
+        {
+            var fmt = new BinaryFormatter();
             if (safe)
             {
                 fmt = fmt.Safe();
@@ -29,9 +51,7 @@ namespace SafeDeserializationHelpers.Tests
 
             using (var stream = new MemoryStream(data))
             {
-                var deserialized = fmt.Deserialize(stream);
-                var msg = $"Deserialized data doesn't match when {(safe ? string.Empty : "not ")}using binder.";
-                Assert_AreEqual(graph, deserialized, msg);
+                return fmt.Deserialize(stream);
             }
         }
 
@@ -115,6 +135,14 @@ namespace SafeDeserializationHelpers.Tests
             if (expected is PSObject ps1 && actual is PSObject ps2)
             {
                 Assert_AreEqual(ps1.Properties, ps2.Properties);
+                return;
+            }
+
+            if (expected is IIdentity id1 && actual is IIdentity id2)
+            {
+                Assert_AreEqual(id1.Name, id2.Name, msg);
+                Assert_AreEqual(id1.IsAuthenticated, id2.IsAuthenticated, msg);
+                Assert_AreEqual(id1.AuthenticationType, id2.AuthenticationType, msg);
                 return;
             }
 

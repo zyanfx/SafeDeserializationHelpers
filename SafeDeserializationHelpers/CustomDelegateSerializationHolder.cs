@@ -9,7 +9,7 @@
     /// Custom replacement for the DelegateSerializationHolder featuring delegate validation.
     /// </summary>
     [Serializable]
-    public sealed class CustomDelegateSerializationHolder : ISerializable, IObjectReference
+    internal sealed class CustomDelegateSerializationHolder : ISerializable, IObjectReference
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="CustomDelegateSerializationHolder"/> class.

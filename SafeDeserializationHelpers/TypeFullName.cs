@@ -1,9 +1,7 @@
 ﻿namespace SafeDeserializationHelpers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Represents the name of a .NET type.

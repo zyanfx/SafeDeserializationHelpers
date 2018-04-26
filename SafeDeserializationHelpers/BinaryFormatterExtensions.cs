@@ -1,7 +1,6 @@
 ﻿namespace SafeDeserializationHelpers
 {
-    using System.Data;
-    using System.Runtime.Serialization;
+    using System;
     using System.Runtime.Serialization.Formatters.Binary;
 
     /// <summary>
@@ -16,16 +15,24 @@
         /// <returns>The safe version of the <see cref="BinaryFormatter"/>.</returns>
         public static BinaryFormatter Safe(this BinaryFormatter fmt)
         {
+            if (fmt == null)
+            {
+                throw new ArgumentNullException(nameof(fmt), "BinaryFormatter is not specified.");
+            }
+
             // safe type binder prevents delegate deserialization attacks
-            var binder = new SafeSerializationBinder(fmt.Binder);
-            fmt.Binder = binder;
+            if (!(fmt.Binder is SafeSerializationBinder))
+            {
+                fmt.Binder = new SafeSerializationBinder(fmt.Binder);
+            }
 
-            // DataSet surrogate validates binary-serialized datasets
-            var ss = new SurrogateSelector();
-            ss.AddSurrogate(typeof(DataSet), new StreamingContext(StreamingContextStates.All), new DataSetSurrogate());
-            fmt.SurrogateSelector = ss;
+            // surrogates validate binary-serialized data before deserializing them
+            if (!(fmt.SurrogateSelector is SafeSurrogateSelector))
+            {
+                // create a new surrogate selector and chain to the existing one, if any
+                fmt.SurrogateSelector = new SafeSurrogateSelector(fmt.SurrogateSelector);
+            }
 
-            // TODO: do we need to chain surrogate selectors?
             return fmt;
         }
     }

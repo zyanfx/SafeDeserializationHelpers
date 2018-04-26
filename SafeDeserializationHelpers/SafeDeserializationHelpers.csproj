@@ -50,10 +50,12 @@
     <Compile Include="IDelegateValidator.cs" />
     <Compile Include="ITypeNameValidator.cs" />
     <Compile Include="SafeSerializationBinder.cs" />
+    <Compile Include="SafeSurrogateSelector.cs" />
     <Compile Include="TypeFullName.cs" />
     <Compile Include="TypeNameValidator.cs" />
     <Compile Include="UnsafeDeserializationException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WindowsIdentitySurrogate.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -5,6 +5,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Management.Automation;
+using System.Security.Principal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace SafeDeserializationHelpers.Tests
@@ -59,19 +60,23 @@ namespace SafeDeserializationHelpers.Tests
             row["Value"] = "Hello";
             rdt.Rows.Add(row);
 
-            // data sets
+            // data set in XML format
             var ds = new DataSet("XmlTestData");
             ds.Tables.Add(dt);
             ds.RemotingFormat = SerializationFormat.Xml;
 
+            // data set in binary format
             var rds = new DataSet("BinaryTestData");
             rds.RemotingFormat = SerializationFormat.Binary;
             rds.Tables.Add(rdt);
 
+            // identity
+            var id = WindowsIdentity.GetAnonymous();
+
             // scalar values, collections and dictionaries
             var samples = new object[]
             {
-                1, "Test", func, action, dt, ds, rds,
+                1, "Test", func, action, dt, ds, rds, id,
                 new List<string> { "abc", "def" },
                 new Dictionary<int, char> { { 1, 'a' }, { 2, 'b'} },
                 new Hashtable { { "Hello", "World" } },
@@ -80,6 +85,9 @@ namespace SafeDeserializationHelpers.Tests
                 new PrivateSerializable { Y = "Hello" },
                 new DataSet[] { ds, null, null, rds, ds },
                 new List<DataSet> { null, rds, ds },
+                new DataTable[] { dt, rdt, null, rdt, dt },
+                new List<DataTable> { rdt, null, dt },
+                new IIdentity[] { null, id, null },
                 new Dictionary<string, DataSet> { { ds.DataSetName, ds }, { rds.DataSetName, rds } },
             };
 

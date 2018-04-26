@@ -4,7 +4,7 @@
     using System.Runtime.Serialization;
 
     /// <inheritdoc cref="SerializationBinder" />
-    public class SafeSerializationBinder : SerializationBinder
+    internal sealed class SafeSerializationBinder : SerializationBinder
     {
         /// <summary>
         /// Core library assembly name.

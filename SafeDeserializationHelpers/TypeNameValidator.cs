@@ -1,9 +1,7 @@
 ﻿namespace SafeDeserializationHelpers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
 
     /// <summary>
     /// Validates the type names before loading them for deserialization.
