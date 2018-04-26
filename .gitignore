@@ -2,6 +2,7 @@ bin
 obj
 packages
 .vs
+.axoCover
 *.suo
 *.user
 *.nupkg
