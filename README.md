@@ -1,17 +1,19 @@
-﻿# Deserializing the untrusted data is dangerous
+﻿# Zyan.SafeDeserializationHelpers
+
+This tiny library tries to fix several known BinaryFormatter vulnerabilities.
+When a malicious payload is detected, the library throws an `UnsafeDeserializationException`
+instead of deserializing the data that is able to produce bad side effects. 
+
+[![appveyor](https://ci.appveyor.com/api/projects/status/github/zyanfx/safedeserializationhelpers?svg=true)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers)
+[![tests](https://img.shields.io/appveyor/tests/yallie/safedeserializationhelpers.svg)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers/build/tests)
+
+# Deserializing the untrusted data is dangerous
 
 It's proven that deserialing arbitrary payloads under certain conditions can
 trigger code execution. BinaryFormatter, DataContractSerializer, XmlSerializer,
 as well as several widely used JSON serializers are known to be vulnerable.
 
 See [ysoserial.net](https://github.com/pwntester/ysoserial.net) project for details.
-
-This tiny library tries to fix several known BinaryFormatter vulnerabilities.
-When a malicious payload is detected, the library throws an exception instead of
-deserializing the data. 
-
-[![appveyor](https://ci.appveyor.com/api/projects/status/github/zyanfx/safedeserializationhelpers?svg=true)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers)
-[![tests](https://img.shields.io/appveyor/tests/yallie/safedeserializationhelpers.svg)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers/build/tests)
 
 # Code sample
 
@@ -27,7 +29,12 @@ var object = fmt.Deserialize(stream);
 
 # Usage
 
-TODO: publish a Nuget package
+1. Install [Zyan.SafeDeserializationHelpers](https://www.nuget.org/packages/Zyan.SafeDeserializationHelpers) nuget package.
+2. Use `new BinaryFormatter().Safe()` instead of just `new BinaryFormatter()`.
+3. For .NET Remoting projects, use safe versions of the binary formatter sinks:
+   * Replace `BinaryClientFormatterSinkProvider` with `SafeBinaryClientFormatterSinkProvider`.
+   * Replace `BinaryServerFormatterSinkProvider` with `SafeBinaryServerFormatterSinkProvider`.
+4. Make sure to test your project against payloads produced by [ysoserial.net](https://github.com/pwntester/ysoserial.net) gadgets.
 
 # Known vulnerabilities supported by the library
 
