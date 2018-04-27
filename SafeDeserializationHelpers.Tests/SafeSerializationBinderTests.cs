@@ -8,7 +8,7 @@ using System.Management.Automation;
 using System.Security.Principal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeDeserializationHelpers.Tests
+namespace Zyan.SafeDeserializationHelpers.Tests
 {
     [TestClass]
     public class SafeSerializationBinderTests : TestBase
@@ -151,6 +151,10 @@ namespace SafeDeserializationHelpers.Tests
 
             var list = new List<Hashtable> { null, hash, null, hash };
             Assert_DoesNotThrow(() => Roundtrip(list, false));
+
+            var ex = new Exception("foo", new NullReferenceException("bar"));
+            ex.Data["quux"] = list;
+            Assert_DoesNotThrow(() => Roundtrip(ex, false));
         }
 
         [TestMethod]
@@ -167,6 +171,10 @@ namespace SafeDeserializationHelpers.Tests
 
             var list = new List<Hashtable> { null, hash, null, hash };
             Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(list, true));
+
+            var ex = new Exception("foo", new NullReferenceException("bar"));
+            ex.Data["quux"] = list;
+            Assert_Throws<UnsafeDeserializationException>(() => Roundtrip(ex, true));
         }
     }
 }

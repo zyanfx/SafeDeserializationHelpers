@@ -40,13 +40,13 @@ using System.Runtime.Remoting.Channels;
 using System;
 using System.Security.Permissions;
 
-namespace SafeDeserializationHelpers.Channels
+namespace Zyan.SafeDeserializationHelpers.Channels
 {
-    public class BinaryServerFormatterSinkProvider :
+    public class SafeBinaryServerFormatterSinkProvider :
         IServerFormatterSinkProvider, IServerChannelSinkProvider
     {
         IServerChannelSinkProvider next = null;
-        BinaryCore _binaryCore;
+        SafeBinaryCore _binaryCore;
 
 #if NET_1_0
 		internal static string[] AllowedProperties = new string [] { "includeVersions", "strictBinding" };
@@ -54,15 +54,15 @@ namespace SafeDeserializationHelpers.Channels
         internal static string[] AllowedProperties = new string[] { "includeVersions", "strictBinding", "typeFilterLevel" };
 #endif
 
-        public BinaryServerFormatterSinkProvider()
+        public SafeBinaryServerFormatterSinkProvider()
         {
-            _binaryCore = BinaryCore.DefaultInstance;
+            _binaryCore = SafeBinaryCore.DefaultInstance;
         }
 
-        public BinaryServerFormatterSinkProvider(IDictionary properties,
+        public SafeBinaryServerFormatterSinkProvider(IDictionary properties,
             ICollection providerData)
         {
-            _binaryCore = new BinaryCore(this, properties, AllowedProperties);
+            _binaryCore = new SafeBinaryCore(this, properties, AllowedProperties);
         }
 
         public IServerChannelSinkProvider Next
@@ -89,7 +89,7 @@ namespace SafeDeserializationHelpers.Channels
             {
                 IDictionary props = (IDictionary)((ICloneable)_binaryCore.Properties).Clone();
                 props["typeFilterLevel"] = value;
-                _binaryCore = new BinaryCore(this, props, AllowedProperties);
+                _binaryCore = new SafeBinaryCore(this, props, AllowedProperties);
             }
         }
 #endif
@@ -98,12 +98,12 @@ namespace SafeDeserializationHelpers.Channels
         public IServerChannelSink CreateSink(IChannelReceiver channel)
         {
             IServerChannelSink next_sink = null;
-            BinaryServerFormatterSink result;
+            SafeBinaryServerFormatterSink result;
 
             if (next != null)
                 next_sink = next.CreateSink(channel);
 
-            result = new BinaryServerFormatterSink(BinaryServerFormatterSink.Protocol.Other,
+            result = new SafeBinaryServerFormatterSink(SafeBinaryServerFormatterSink.Protocol.Other,
                 next_sink, channel);
 
             result.BinaryCore = _binaryCore;

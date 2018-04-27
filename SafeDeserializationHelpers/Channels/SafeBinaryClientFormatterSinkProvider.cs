@@ -35,13 +35,13 @@ using System.Collections;
 using System.Runtime.Remoting.Channels;
 using System.Security.Permissions;
 
-namespace SafeDeserializationHelpers.Channels
+namespace Zyan.SafeDeserializationHelpers.Channels
 {
-    public class BinaryClientFormatterSinkProvider :
+    public class SafeBinaryClientFormatterSinkProvider :
         IClientFormatterSinkProvider, IClientChannelSinkProvider
     {
         IClientChannelSinkProvider next = null;
-        BinaryCore _binaryCore;
+        SafeBinaryCore _binaryCore;
 
 #if NET_1_1
 		static string[] allowedProperties = new string [] { "includeVersions", "strictBinding", "typeFilterLevel" };
@@ -49,15 +49,15 @@ namespace SafeDeserializationHelpers.Channels
         static string[] allowedProperties = new string[] { "includeVersions", "strictBinding" };
 #endif
 
-        public BinaryClientFormatterSinkProvider()
+        public SafeBinaryClientFormatterSinkProvider()
         {
-            _binaryCore = BinaryCore.DefaultInstance;
+            _binaryCore = SafeBinaryCore.DefaultInstance;
         }
 
-        public BinaryClientFormatterSinkProvider(IDictionary properties,
+        public SafeBinaryClientFormatterSinkProvider(IDictionary properties,
             ICollection providerData)
         {
-            _binaryCore = new BinaryCore(this, properties, allowedProperties);
+            _binaryCore = new SafeBinaryCore(this, properties, allowedProperties);
         }
 
         public IClientChannelSinkProvider Next
@@ -81,12 +81,12 @@ namespace SafeDeserializationHelpers.Channels
             object remoteChannelData)
         {
             IClientChannelSink next_sink = null;
-            BinaryClientFormatterSink result;
+            SafeBinaryClientFormatterSink result;
 
             if (next != null)
                 next_sink = next.CreateSink(channel, url, remoteChannelData);
 
-            result = new BinaryClientFormatterSink(next_sink);
+            result = new SafeBinaryClientFormatterSink(next_sink);
             result.BinaryCore = _binaryCore;
 
             return result;

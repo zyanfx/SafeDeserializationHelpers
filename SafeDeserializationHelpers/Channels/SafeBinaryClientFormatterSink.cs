@@ -39,20 +39,20 @@ using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Messaging;
 using System.Security.Permissions;
 
-namespace SafeDeserializationHelpers.Channels
+namespace Zyan.SafeDeserializationHelpers.Channels
 {
-    public class BinaryClientFormatterSink : IClientFormatterSink,
+    public class SafeBinaryClientFormatterSink : IClientFormatterSink,
         IMessageSink, IClientChannelSink, IChannelSinkBase
     {
-        BinaryCore _binaryCore = BinaryCore.DefaultInstance;
+        SafeBinaryCore _binaryCore = SafeBinaryCore.DefaultInstance;
         IClientChannelSink _nextInChain;
 
-        public BinaryClientFormatterSink(IClientChannelSink nextSink)
+        public SafeBinaryClientFormatterSink(IClientChannelSink nextSink)
         {
             _nextInChain = nextSink;
         }
 
-        internal BinaryCore BinaryCore
+        internal SafeBinaryCore BinaryCore
         {
             get { return _binaryCore; }
             set { _binaryCore = value; }

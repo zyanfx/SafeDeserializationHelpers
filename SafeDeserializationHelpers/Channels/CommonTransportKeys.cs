@@ -31,9 +31,9 @@
 
 #pragma warning disable 1591 // missing XML comments
 
-namespace SafeDeserializationHelpers.Channels
+namespace Zyan.SafeDeserializationHelpers.Channels
 {
-    public class CommonTransportKeys
+    internal class CommonTransportKeys
     {
         public const string ConnectionId = "__ConnectionId";
         public const string IPAddress = "__IPAddress";

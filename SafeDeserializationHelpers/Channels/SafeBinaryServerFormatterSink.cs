@@ -40,9 +40,9 @@ using System.Runtime.Remoting.Channels;
 using System;
 using System.Security.Permissions;
 
-namespace SafeDeserializationHelpers.Channels
+namespace Zyan.SafeDeserializationHelpers.Channels
 {
-    public class BinaryServerFormatterSink : IServerChannelSink, IChannelSinkBase
+    public class SafeBinaryServerFormatterSink : IServerChannelSink, IChannelSinkBase
     {
         [Serializable]
         public enum Protocol
@@ -51,13 +51,13 @@ namespace SafeDeserializationHelpers.Channels
             Other = 1,
         }
 
-        BinaryCore _binaryCore = BinaryCore.DefaultInstance;
+        SafeBinaryCore _binaryCore = SafeBinaryCore.DefaultInstance;
 
         IServerChannelSink next_sink;
         Protocol protocol;
         IChannelReceiver receiver;
 
-        public BinaryServerFormatterSink(BinaryServerFormatterSink.Protocol protocol,
+        public SafeBinaryServerFormatterSink(SafeBinaryServerFormatterSink.Protocol protocol,
             IServerChannelSink nextSink,
             IChannelReceiver receiver)
         {
@@ -66,7 +66,7 @@ namespace SafeDeserializationHelpers.Channels
             this.receiver = receiver;
         }
 
-        internal BinaryCore BinaryCore
+        internal SafeBinaryCore BinaryCore
         {
             get { return _binaryCore; }
             set { _binaryCore = value; }
@@ -99,7 +99,7 @@ namespace SafeDeserializationHelpers.Channels
             {
                 IDictionary props = (IDictionary)((ICloneable)_binaryCore.Properties).Clone();
                 props["typeFilterLevel"] = value;
-                _binaryCore = new BinaryCore(this, props, BinaryServerFormatterSinkProvider.AllowedProperties);
+                _binaryCore = new SafeBinaryCore(this, props, SafeBinaryServerFormatterSinkProvider.AllowedProperties);
             }
         }
 #endif

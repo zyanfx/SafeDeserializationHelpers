@@ -7,13 +7,14 @@
     <ProjectGuid>{06EDE6B8-FF31-45E3-9EFB-7C92292D2404}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SafeDeserializationHelpers</RootNamespace>
-    <AssemblyName>SafeDeserializationHelpers</AssemblyName>
+    <RootNamespace>Zyan.SafeDeserializationHelpers</RootNamespace>
+    <AssemblyName>Zyan.SafeDeserializationHelpers</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <WarningLevel>4</WarningLevel>
     <RunCodeAnalysis>true</RunCodeAnalysis>
     <LangVersion>latest</LangVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +23,7 @@
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NET_1_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <DocumentationFile>bin\Debug\SafeDeserializationHelpers.xml</DocumentationFile>
+    <DocumentationFile>bin\Debug\Zyan.SafeDeserializationHelpers.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -31,8 +32,14 @@
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;NET_1_1</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
-    <DocumentationFile>bin\Release\SafeDeserializationHelpers.xml</DocumentationFile>
+    <DocumentationFile>bin\Release\Zyan.SafeDeserializationHelpers.xml</DocumentationFile>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Zyan.SafeDeserializationHelpers.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -44,11 +51,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BinaryFormatterExtensions.cs" />
-    <Compile Include="Channels\BinaryClientFormatterSink.cs" />
-    <Compile Include="Channels\BinaryClientFormatterSinkProvider.cs" />
-    <Compile Include="Channels\BinaryCore.cs" />
-    <Compile Include="Channels\BinaryServerFormatterSink.cs" />
-    <Compile Include="Channels\BinaryServerFormatterSinkProvider.cs" />
+    <Compile Include="Channels\SafeBinaryClientFormatterSink.cs" />
+    <Compile Include="Channels\SafeBinaryClientFormatterSinkProvider.cs" />
+    <Compile Include="Channels\SafeBinaryCore.cs" />
+    <Compile Include="Channels\SafeBinaryServerFormatterSink.cs" />
+    <Compile Include="Channels\SafeBinaryServerFormatterSinkProvider.cs" />
     <Compile Include="Channels\CommonTransportKeys.cs" />
     <Compile Include="CustomDelegateSerializationHolder.cs" />
     <Compile Include="DataSetSurrogate.cs" />
@@ -66,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="Zyan.SafeDeserializationHelpers.snk" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta006\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />

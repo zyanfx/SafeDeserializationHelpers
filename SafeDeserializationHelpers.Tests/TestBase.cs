@@ -9,7 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Principal;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeDeserializationHelpers.Tests
+namespace Zyan.SafeDeserializationHelpers.Tests
 {
     public class TestBase
     {
@@ -143,6 +143,15 @@ namespace SafeDeserializationHelpers.Tests
                 Assert_AreEqual(id1.Name, id2.Name, msg);
                 Assert_AreEqual(id1.IsAuthenticated, id2.IsAuthenticated, msg);
                 Assert_AreEqual(id1.AuthenticationType, id2.AuthenticationType, msg);
+                return;
+            }
+
+            if (expected is Exception ex1 && actual is Exception ex2)
+            {
+                Assert_AreEqual(ex1.GetType(), ex2.GetType(), msg);
+                Assert_AreEqual(ex1.Message, ex2.Message, msg);
+                Assert_AreEqual(ex1.InnerException, ex2.InnerException, msg);
+                Assert_AreEqual(ex1.Data, ex2.Data, msg);
                 return;
             }
 

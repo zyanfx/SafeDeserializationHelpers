@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeDeserializationHelpers.Tests
+namespace Zyan.SafeDeserializationHelpers.Tests
 {
     [TestClass]
     public class TypeFullNameTests : TestBase

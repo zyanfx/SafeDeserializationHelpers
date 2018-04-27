@@ -1,4 +1,4 @@
-﻿namespace SafeDeserializationHelpers
+﻿namespace Zyan.SafeDeserializationHelpers
 {
     /// <summary>
     /// Interface for validating type names before loading types for deserialization.

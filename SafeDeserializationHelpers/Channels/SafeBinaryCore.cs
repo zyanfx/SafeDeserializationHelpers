@@ -40,9 +40,9 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace SafeDeserializationHelpers.Channels
+namespace Zyan.SafeDeserializationHelpers.Channels
 {
-    internal class BinaryCore
+    internal class SafeBinaryCore
     {
         BinaryFormatter _serializationFormatter;
         BinaryFormatter _deserializationFormatter;
@@ -54,9 +54,9 @@ namespace SafeDeserializationHelpers.Channels
         TypeFilterLevel _filterLevel = TypeFilterLevel.Low;
 #endif
 
-        public static BinaryCore DefaultInstance = new BinaryCore();
+        public static SafeBinaryCore DefaultInstance = new SafeBinaryCore();
 
-        public BinaryCore(object owner, IDictionary properties, string[] allowedProperties)
+        public SafeBinaryCore(object owner, IDictionary properties, string[] allowedProperties)
         {
             _properties = properties;
 
@@ -98,7 +98,7 @@ namespace SafeDeserializationHelpers.Channels
             Init();
         }
 
-        public BinaryCore()
+        public SafeBinaryCore()
         {
             _properties = new Hashtable();
             Init();

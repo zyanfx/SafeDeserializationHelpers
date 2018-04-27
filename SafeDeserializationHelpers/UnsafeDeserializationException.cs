@@ -1,4 +1,4 @@
-﻿namespace SafeDeserializationHelpers
+﻿namespace Zyan.SafeDeserializationHelpers
 {
     using System;
     using System.Runtime.Serialization;

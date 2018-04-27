@@ -3,7 +3,7 @@ using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace SafeDeserializationHelpers.Tests
+namespace Zyan.SafeDeserializationHelpers.Tests
 {
     [TestClass]
     public class YsoserialGadgetTests : TestBase

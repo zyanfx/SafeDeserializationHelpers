@@ -1,4 +1,4 @@
-﻿namespace SafeDeserializationHelpers.Tests
+﻿namespace Zyan.SafeDeserializationHelpers.Tests
 {
     using System;
     using System.Collections.Generic;

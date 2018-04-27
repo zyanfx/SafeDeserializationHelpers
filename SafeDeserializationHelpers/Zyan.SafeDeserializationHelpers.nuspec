@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
-    <id>SafeDeserializationHelpers</id>
+    <id>Zyan.SafeDeserializationHelpers</id>
     <version>0.1</version>
-    <title>SafeDeserializationHelpers</title>
+    <title>Zyan.SafeDeserializationHelpers</title>
     <authors>yallie</authors>
     <owners>Alexey Yakovlev</owners>
     <licenseUrl>https://github.com/zyanfx/SafeDeserializationHelpers/blob/master/LICENSE</licenseUrl>
@@ -16,7 +16,7 @@
     <tags>security deserialization BinaryFormatter</tags>
   </metadata>
   <files>
-    <file src="bin\Release\SafeDeserializationHelpers.dll" target="lib\net35\SafeDeserializationHelpers.dll" />
-    <file src="bin\Release\SafeDeserializationHelpers.xml" target="lib\net35\SafeDeserializationHelpers.xml" />
+    <file src="bin\Release\Zyan.SafeDeserializationHelpers.dll" target="lib\net35\Zyan.SafeDeserializationHelpers.dll" />
+    <file src="bin\Release\Zyan.SafeDeserializationHelpers.xml" target="lib\net35\Zyan.SafeDeserializationHelpers.xml" />
   </files>
 </package>
