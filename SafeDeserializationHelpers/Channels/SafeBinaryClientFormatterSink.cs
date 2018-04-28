@@ -37,6 +37,7 @@ using System.Collections;
 using System.IO;
 using System.Runtime.Remoting.Channels;
 using System.Runtime.Remoting.Messaging;
+using System.Runtime.Serialization.Formatters;
 using System.Security.Permissions;
 
 namespace Zyan.SafeDeserializationHelpers.Channels
@@ -44,7 +45,8 @@ namespace Zyan.SafeDeserializationHelpers.Channels
     public class SafeBinaryClientFormatterSink : IClientFormatterSink,
         IMessageSink, IClientChannelSink, IChannelSinkBase
     {
-        SafeBinaryCore _binaryCore = SafeBinaryCore.DefaultInstance;
+        private const TypeFilterLevel DefaultFilterLevel = SafeBinaryClientFormatterSinkProvider.DefaultFilterLevel;
+        SafeBinaryCore _binaryCore = new SafeBinaryCore(DefaultFilterLevel);
         IClientChannelSink _nextInChain;
 
         public SafeBinaryClientFormatterSink(IClientChannelSink nextSink)

@@ -30,8 +30,6 @@
 
 #pragma warning disable 1591 // missing XML comments
 
-#define NET_1_1
-
 using System;
 using System.Collections;
 using System.Runtime.Remoting;
@@ -49,15 +47,11 @@ namespace Zyan.SafeDeserializationHelpers.Channels
         bool _includeVersions = true;
         bool _strictBinding = false;
         IDictionary _properties;
+        TypeFilterLevel _filterLevel;
 
-#if NET_1_1
-        TypeFilterLevel _filterLevel = TypeFilterLevel.Low;
-#endif
-
-        public static SafeBinaryCore DefaultInstance = new SafeBinaryCore();
-
-        public SafeBinaryCore(object owner, IDictionary properties, string[] allowedProperties)
+        public SafeBinaryCore(TypeFilterLevel defaultFilterLevel, object owner, IDictionary properties, string[] allowedProperties)
         {
+            _filterLevel = defaultFilterLevel;
             _properties = properties;
 
             if (_properties == null)
@@ -81,7 +75,6 @@ namespace Zyan.SafeDeserializationHelpers.Channels
                         _strictBinding = Convert.ToBoolean(property.Value);
                         break;
 
-#if NET_1_1
                     case "typeFilterLevel":
                         if (property.Value is TypeFilterLevel)
                             _filterLevel = (TypeFilterLevel)property.Value;
@@ -91,15 +84,15 @@ namespace Zyan.SafeDeserializationHelpers.Channels
                             _filterLevel = (TypeFilterLevel)Enum.Parse(typeof(TypeFilterLevel), s);
                         }
                         break;
-#endif
                 }
             }
 
             Init();
         }
 
-        public SafeBinaryCore()
+        public SafeBinaryCore(TypeFilterLevel defaultFilterLevel)
         {
+            _filterLevel = defaultFilterLevel;
             _properties = new Hashtable();
             Init();
         }
@@ -109,18 +102,10 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             RemotingSurrogateSelector surrogateSelector = new RemotingSurrogateSelector();
             StreamingContext context = new StreamingContext(StreamingContextStates.Remoting, null);
 
-#if !TARGET_JVM
             _serializationFormatter = new BinaryFormatter(surrogateSelector, context).Safe();
             _deserializationFormatter = new BinaryFormatter(null, context).Safe();
-#else
-            _serializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (surrogateSelector, context, false);
-            _deserializationFormatter = (BinaryFormatter) vmw.@internal.remoting.BinaryFormatterUtils.CreateBinaryFormatter (null, context, false);
-#endif
-
-#if NET_1_1
             _serializationFormatter.FilterLevel = _filterLevel;
             _deserializationFormatter.FilterLevel = _filterLevel;
-#endif
 
             if (!_includeVersions || !_strictBinding)
             {
@@ -144,12 +129,10 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             get { return _properties; }
         }
 
-#if NET_1_1
         public TypeFilterLevel TypeFilterLevel
         {
             get { return _filterLevel; }
         }
-#endif
     }
 }
 

@@ -33,6 +33,7 @@
 
 using System.Collections;
 using System.Runtime.Remoting.Channels;
+using System.Runtime.Serialization.Formatters;
 using System.Security.Permissions;
 
 namespace Zyan.SafeDeserializationHelpers.Channels
@@ -40,24 +41,22 @@ namespace Zyan.SafeDeserializationHelpers.Channels
     public class SafeBinaryClientFormatterSinkProvider :
         IClientFormatterSinkProvider, IClientChannelSinkProvider
     {
+        // default type filter level for BinaryServerFormatterSink is full
+        public const TypeFilterLevel DefaultFilterLevel = TypeFilterLevel.Full;
         IClientChannelSinkProvider next = null;
         SafeBinaryCore _binaryCore;
 
-#if NET_1_1
-		static string[] allowedProperties = new string [] { "includeVersions", "strictBinding", "typeFilterLevel" };
-#else
-        static string[] allowedProperties = new string[] { "includeVersions", "strictBinding" };
-#endif
+        static string[] allowedProperties = new string [] { "includeVersions", "strictBinding", "typeFilterLevel" };
 
         public SafeBinaryClientFormatterSinkProvider()
         {
-            _binaryCore = SafeBinaryCore.DefaultInstance;
+            _binaryCore = new SafeBinaryCore(DefaultFilterLevel);
         }
 
         public SafeBinaryClientFormatterSinkProvider(IDictionary properties,
             ICollection providerData)
         {
-            _binaryCore = new SafeBinaryCore(this, properties, allowedProperties);
+            _binaryCore = new SafeBinaryCore(DefaultFilterLevel, this, properties, allowedProperties);
         }
 
         public IClientChannelSinkProvider Next

@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Zyan.SafeDeserializationHelpers</id>
-    <version>0.1</version>
+    <version>0.2</version>
     <title>Zyan.SafeDeserializationHelpers</title>
     <authors>yallie</authors>
     <owners>Alexey Yakovlev</owners>
@@ -11,7 +11,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</description>
     <summary>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</summary>
-    <releaseNotes>Initial beta release.</releaseNotes>
+    <releaseNotes>Updated TypeFilterLevel to match the .NET defaults.</releaseNotes>
     <language>en-US</language>
     <tags>security deserialization BinaryFormatter</tags>
   </metadata>

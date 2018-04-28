@@ -51,7 +51,8 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             Other = 1,
         }
 
-        SafeBinaryCore _binaryCore = SafeBinaryCore.DefaultInstance;
+        private const TypeFilterLevel DefaultFilterLevel = SafeBinaryServerFormatterSinkProvider.DefaultFilterLevel;
+        SafeBinaryCore _binaryCore = new SafeBinaryCore(DefaultFilterLevel);
 
         IServerChannelSink next_sink;
         Protocol protocol;
@@ -90,7 +91,6 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             }
         }
 
-#if NET_1_1
         [ComVisible(false)]
         public TypeFilterLevel TypeFilterLevel
         {
@@ -99,10 +99,9 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             {
                 IDictionary props = (IDictionary)((ICloneable)_binaryCore.Properties).Clone();
                 props["typeFilterLevel"] = value;
-                _binaryCore = new SafeBinaryCore(this, props, SafeBinaryServerFormatterSinkProvider.AllowedProperties);
+                _binaryCore = new SafeBinaryCore(DefaultFilterLevel, this, props, SafeBinaryServerFormatterSinkProvider.AllowedProperties);
             }
         }
-#endif
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
         public void AsyncProcessResponse(IServerResponseChannelSinkStack sinkStack, object state,

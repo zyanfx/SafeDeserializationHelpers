@@ -31,8 +31,6 @@
 
 #pragma warning disable 1591 // missing XML comments
 
-#define NET_1_1
-
 using System.Collections;
 using System.Runtime.Serialization.Formatters;
 using System.Runtime.InteropServices;
@@ -45,24 +43,22 @@ namespace Zyan.SafeDeserializationHelpers.Channels
     public class SafeBinaryServerFormatterSinkProvider :
         IServerFormatterSinkProvider, IServerChannelSinkProvider
     {
+        // default type filter level for BinaryServerFormatterSink is low
+        public const TypeFilterLevel DefaultFilterLevel = TypeFilterLevel.Low;
         IServerChannelSinkProvider next = null;
         SafeBinaryCore _binaryCore;
 
-#if NET_1_0
-		internal static string[] AllowedProperties = new string [] { "includeVersions", "strictBinding" };
-#else
         internal static string[] AllowedProperties = new string[] { "includeVersions", "strictBinding", "typeFilterLevel" };
-#endif
 
         public SafeBinaryServerFormatterSinkProvider()
         {
-            _binaryCore = SafeBinaryCore.DefaultInstance;
+            _binaryCore = new SafeBinaryCore(DefaultFilterLevel);
         }
 
         public SafeBinaryServerFormatterSinkProvider(IDictionary properties,
             ICollection providerData)
         {
-            _binaryCore = new SafeBinaryCore(this, properties, AllowedProperties);
+            _binaryCore = new SafeBinaryCore(DefaultFilterLevel, this, properties, AllowedProperties);
         }
 
         public IServerChannelSinkProvider Next
@@ -80,7 +76,6 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             }
         }
 
-#if NET_1_1
         [ComVisible(false)]
         public TypeFilterLevel TypeFilterLevel
         {
@@ -89,10 +84,9 @@ namespace Zyan.SafeDeserializationHelpers.Channels
             {
                 IDictionary props = (IDictionary)((ICloneable)_binaryCore.Properties).Clone();
                 props["typeFilterLevel"] = value;
-                _binaryCore = new SafeBinaryCore(this, props, AllowedProperties);
+                _binaryCore = new SafeBinaryCore(DefaultFilterLevel, this, props, AllowedProperties);
             }
         }
-#endif
 
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.Infrastructure)]
         public IServerChannelSink CreateSink(IChannelReceiver channel)
