@@ -15,6 +15,14 @@
         {
             "System.IO",
             "System.Diagnostics",
+            "System.Management",
+            "System.Reflection",
+            "System.Configuration",
+            "System.Security",
+            "System.Web",
+            "System.ServiceModel",
+            "System.Activities",
+            "System.Workflow",
         };
 
         /// <summary>

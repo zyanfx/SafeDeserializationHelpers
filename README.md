@@ -4,6 +4,7 @@ This tiny library tries to fix several known BinaryFormatter vulnerabilities.
 When a malicious payload is detected, the library throws an `UnsafeDeserializationException`
 instead of deserializing the data that is able to produce bad side effects. 
 
+[![GitQ](https://gitq.com/badge.svg)](https://gitq.com/zyanfx/Zyan)
 [![appveyor](https://ci.appveyor.com/api/projects/status/github/zyanfx/safedeserializationhelpers?svg=true)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers)
 [![tests](https://img.shields.io/appveyor/tests/yallie/safedeserializationhelpers.svg)](https://ci.appveyor.com/project/yallie/safedeserializationhelpers/build/tests)
 [![nuget](https://img.shields.io/nuget/v/Zyan.SafeDeserializationHelpers.svg)](https://nuget.org/packages/Zyan.SafeDeserializationHelpers)
