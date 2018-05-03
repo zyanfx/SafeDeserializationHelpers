@@ -3,6 +3,7 @@
     using System;
     using System.Runtime.Serialization;
     using System.Security;
+    using System.Security.Permissions;
 
     /// <summary>
     /// Exception to be thrown when possible deserialization vulnerability is detected.
@@ -31,6 +32,14 @@
         protected UnsafeDeserializationException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+        }
+
+        /// <inheritdoc cref="SecurityException"/>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.SetType(typeof(SecurityException));
+            base.GetObjectData(info, context);
         }
     }
 }

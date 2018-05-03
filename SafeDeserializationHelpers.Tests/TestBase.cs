@@ -26,7 +26,7 @@ namespace Zyan.SafeDeserializationHelpers.Tests
             Assert_AreEqual(graph, deserialized, msg);
         }
 
-        private byte[] Serialize(object graph, bool safe)
+        protected byte[] Serialize(object graph, bool safe)
         {
             var fmt = new BinaryFormatter();
             if (safe)
@@ -41,7 +41,7 @@ namespace Zyan.SafeDeserializationHelpers.Tests
             }
         }
 
-        private object Deserialize(byte[] data, bool safe)
+        protected object Deserialize(byte[] data, bool safe)
         {
             var fmt = new BinaryFormatter();
             if (safe)

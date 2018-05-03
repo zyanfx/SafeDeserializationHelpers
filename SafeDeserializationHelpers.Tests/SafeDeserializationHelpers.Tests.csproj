@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DelegateValidatorTests.cs" />
+    <Compile Include="ExceptionSerializationTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SafeSerializationBinderTests.cs" />
     <Compile Include="TestBase.cs" />
