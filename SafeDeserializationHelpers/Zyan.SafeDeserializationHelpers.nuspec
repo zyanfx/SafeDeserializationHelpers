@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Zyan.SafeDeserializationHelpers</id>
-    <version>0.3</version>
+    <version>0.4</version>
     <title>Zyan.SafeDeserializationHelpers</title>
     <authors>yallie</authors>
     <owners>Alexey Yakovlev</owners>
@@ -12,10 +12,18 @@
     <description>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</description>
     <summary>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</summary>
     <releaseNotes>
+    What's new:
+
+      v0.4.0:
+      - UnsafeDeserializationException is serialized as plain SecurityException.
+      - Zyan.SafeDeserializationHelpers assembly is not required on the client side anymore.
+
       v0.3.0:
       - Added more blacklisted namespaces to the delegate validator.
+
       v0.2.0:
       - Updated TypeFilterLevel to match the .NET defaults.
+
       v0.1.0:
       - Initial release.
     </releaseNotes>
