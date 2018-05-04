@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeDeserializationHelpers"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeDeserializationHelpers.Tests", "SafeDeserializationHelpers.Tests\SafeDeserializationHelpers.Tests.csproj", "{C808DDEE-BE52-4384-8376-D4966FFF9438}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SafeDeserializationHelpers.Fx2", "SafeDeserializationHelpers.Fx2\SafeDeserializationHelpers.Fx2.csproj", "{6AA13E9A-B70E-4AC9-AAB4-1043D7D045B9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C808DDEE-BE52-4384-8376-D4966FFF9438}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C808DDEE-BE52-4384-8376-D4966FFF9438}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C808DDEE-BE52-4384-8376-D4966FFF9438}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA13E9A-B70E-4AC9-AAB4-1043D7D045B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA13E9A-B70E-4AC9-AAB4-1043D7D045B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA13E9A-B70E-4AC9-AAB4-1043D7D045B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA13E9A-B70E-4AC9-AAB4-1043D7D045B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

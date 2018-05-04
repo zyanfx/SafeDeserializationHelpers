@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6AA13E9A-B70E-4AC9-AAB4-1043D7D045B9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Zyan.SafeDeserializationHelpers</RootNamespace>
+    <AssemblyName>Zyan.SafeDeserializationHelpers</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <LangVersion>latest</LangVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>bin\Debug\Zyan.SafeDeserializationHelpers.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <DocumentationFile>bin\Release\Zyan.SafeDeserializationHelpers.xml</DocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>true</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\Zyan.SafeDeserializationHelpers.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\SafeDeserializationHelpers\BinaryFormatterExtensions.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Channels\SafeBinaryClientFormatterSink.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Channels\SafeBinaryClientFormatterSinkProvider.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Channels\SafeBinaryCore.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Channels\SafeBinaryServerFormatterSink.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Channels\SafeBinaryServerFormatterSinkProvider.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Channels\CommonTransportKeys.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\CustomDelegateSerializationHolder.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\DataSetSurrogate.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\DelegateValidator.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\GlobalSuppressions.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\IDelegateValidator.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\ITypeNameValidator.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\SafeSerializationBinder.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\SafeSurrogateSelector.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\TypeFullName.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\TypeNameValidator.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\UnsafeDeserializationException.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\Properties\AssemblyInfo.cs" />
+    <Compile Include="..\SafeDeserializationHelpers\WindowsIdentitySurrogate.cs" />
+    <Compile Include="Enumerable.cs" />
+    <Compile Include="ExtensionAttribute.cs" />
+    <Compile Include="Func.cs" />
+    <Compile Include="HashSet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta006\analyzers\dotnet\cs\StyleCop.Analyzers.CodeFixes.dll" />
+    <Analyzer Include="..\packages\StyleCop.Analyzers.1.1.0-beta006\analyzers\dotnet\cs\StyleCop.Analyzers.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
