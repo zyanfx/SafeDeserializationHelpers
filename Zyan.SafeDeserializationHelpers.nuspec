@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Zyan.SafeDeserializationHelpers</id>
-    <version>0.4</version>
+    <version>0.5</version>
     <title>Zyan.SafeDeserializationHelpers</title>
     <authors>yallie</authors>
     <owners>Alexey Yakovlev</owners>
@@ -13,6 +13,9 @@
     <summary>Safe deserialization helper library to fix known BinaryFormatter vulnerabilities.</summary>
     <releaseNotes>
     What's new:
+
+      v0.5.0:
+      - Added .NET 2.0 support.
 
       v0.4.0:
       - UnsafeDeserializationException is serialized as plain SecurityException.
@@ -31,7 +34,12 @@
     <tags>security deserialization vulnerability BinaryFormatter</tags>
   </metadata>
   <files>
-    <file src="bin\Release\Zyan.SafeDeserializationHelpers.dll" target="lib\net35\Zyan.SafeDeserializationHelpers.dll" />
-    <file src="bin\Release\Zyan.SafeDeserializationHelpers.xml" target="lib\net35\Zyan.SafeDeserializationHelpers.xml" />
+    <!-- .NET 2.0 -->
+    <file src="SafeDeserializationHelpers.Fx2\bin\Release\Zyan.SafeDeserializationHelpers.dll" target="lib\net20\Zyan.SafeDeserializationHelpers.dll" />
+    <file src="SafeDeserializationHelpers.Fx2\bin\Release\Zyan.SafeDeserializationHelpers.xml" target="lib\net20\Zyan.SafeDeserializationHelpers.xml" />
+
+    <!-- .NET 3.5 -->
+    <file src="SafeDeserializationHelpers\bin\Release\Zyan.SafeDeserializationHelpers.dll" target="lib\net35\Zyan.SafeDeserializationHelpers.dll" />
+    <file src="SafeDeserializationHelpers\bin\Release\Zyan.SafeDeserializationHelpers.xml" target="lib\net35\Zyan.SafeDeserializationHelpers.xml" />
   </files>
 </package>
