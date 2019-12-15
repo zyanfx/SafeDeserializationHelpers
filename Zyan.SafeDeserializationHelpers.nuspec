@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>Zyan.SafeDeserializationHelpers</id>
-    <version>0.5</version>
+    <version>0.5.1</version>
     <title>Zyan.SafeDeserializationHelpers</title>
     <authors>yallie</authors>
     <owners>Alexey Yakovlev</owners>
@@ -41,5 +41,9 @@
     <!-- .NET 3.5 -->
     <file src="SafeDeserializationHelpers\bin\Release\Zyan.SafeDeserializationHelpers.dll" target="lib\net35\Zyan.SafeDeserializationHelpers.dll" />
     <file src="SafeDeserializationHelpers\bin\Release\Zyan.SafeDeserializationHelpers.xml" target="lib\net35\Zyan.SafeDeserializationHelpers.xml" />
+
+    <!-- Xamarin -->
+    <file src="SafeDeserializationHelpers\bin\Release\Zyan.SafeDeserializationHelpers.dll" target="lib\MonoAndroid10\Zyan.SafeDeserializationHelpers.dll" />
+    <file src="SafeDeserializationHelpers\bin\Release\Zyan.SafeDeserializationHelpers.xml" target="lib\MonoAndroid10\Zyan.SafeDeserializationHelpers.xml" />
   </files>
 </package>
